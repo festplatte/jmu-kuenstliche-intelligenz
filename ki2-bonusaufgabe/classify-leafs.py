@@ -2,28 +2,26 @@ import os
 from PIL import Image
 
 traindatapath = './Train/'
+testdatapath = './Test/'
 
 
-def readTrainingData():
+def readimagedata(path):
     train_labels = []
     train_images = []
 
-    for category in os.listdir(traindatapath):
-        categorypath = traindatapath + category + '/'
+    for category in os.listdir(path):
+        categorypath = path + category + '/'
         for img in os.listdir(categorypath):
             im = Image.open(categorypath + img)
             train_images.append(list(im.getdata()))
             train_labels.append(category)
-            # with open(categorypath + img, 'rb') as imgfile:
-            #     imgdata = imgfile.read()
-            #     train_images.append(imgdata)
-            #     train_labels.append(category)
-            break
-        break
 
     return [train_labels, train_images]
 
 
-result = readTrainingData()
+(train_labels, train_images) = readimagedata(traindatapath)
+(test_labels, test_images) = readimagedata(testdatapath)
 
-print(result)
+
+print('Train labels: ', train_labels)
+print('Images:', len(train_images))
