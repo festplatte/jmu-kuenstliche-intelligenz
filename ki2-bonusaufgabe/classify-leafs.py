@@ -1,80 +1,85 @@
-import os
-import random
-import numpy as np
-from skimage import io, color
-from skimage.transform import resize
+'''
+This script was executed on the following environment:
+- Microsoft Windows 10
+- Python 3.6.8
+- Tensorflow 1.12.0
 
-# TensorFlow and tf.keras
+It achieved an accuracy of 78.12 % on the set of test images.
+'''
+
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D
+from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense
+from tensorflow.keras import backend as K
 import tensorflow as tf
-from tensorflow import keras
 
-TRAIN_DATA_PATH = './Flavia/Train/'
-TEST_DATA_PATH = './Flavia/Test/'
-IMG_SIZE = 50
-NUM_CLASSES = 32
-EPOCHS = 5
-USE_GRAYSCALE = True
 
-image_channels = 1 if USE_GRAYSCALE else 3
-random.seed(100)
+# dimensions of images
+img_width, img_height = 150, 150
 
-def readimagedata(path):
-    train_labels = []
-    train_images = []
+train_data_dir = 'Flavia/Train'
+validation_data_dir = 'Flavia/Test'
+nb_train_samples = 1587
+nb_validation_samples = 320
+nb_classes = 32
+epochs = 50
+batch_size = 16
 
-    for category in os.listdir(path):
-        categorypath = path + category + '/'
-        for img in os.listdir(categorypath):
-            im = io.imread(categorypath + img)
-            if USE_GRAYSCALE:
-                im = color.rgb2gray(im)
-            im = resize(im, (IMG_SIZE, IMG_SIZE))
-            train_images.append(im)
-            train_labels.append(int(category) - 1)
+if K.image_data_format() == 'channels_first':
+    input_shape = (3, img_width, img_height)
+else:
+    input_shape = (img_width, img_height, 3)
 
-    return [np.array(train_labels), np.array(train_images)]
+model = Sequential()
+model.add(Conv2D(32, (3, 3), input_shape=input_shape))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 
-def shuffledata(labels, images):
-    for i in range(0, len(labels)):
-        j = random.randint(0, len(labels)-1)
-        temp = labels[i]
-        labels[i] = labels[j]
-        labels[j] = temp
-        temp = images[i]
-        images[i] = images[j]
-        images[j] = temp
+model.add(Conv2D(32, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 
-# Reading and pre-format the data
-(train_labels, train_images) = readimagedata(TRAIN_DATA_PATH)
-(test_labels, test_images) = readimagedata(TEST_DATA_PATH)
+model.add(Conv2D(64, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 
-shuffledata(train_labels, train_images)
-shuffledata(test_labels, test_images)
+model.add(Flatten())
+model.add(Dense(64))
+model.add(Activation('relu'))
+model.add(Dropout(0.5))
+model.add(Dense(nb_classes))
+model.add(Activation('softmax'))
 
-train_images = train_images.reshape(train_images.shape[0], IMG_SIZE, IMG_SIZE, image_channels)
-test_images = test_images.reshape(test_images.shape[0], IMG_SIZE, IMG_SIZE, image_channels)
-
-# Builds the model
-model = keras.Sequential([
-    keras.layers.Conv2D(32, kernel_size=(5, 5), strides=(1, 1), activation=tf.nn.relu, input_shape=(IMG_SIZE, IMG_SIZE, image_channels)),
-    # keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
-    keras.layers.Conv2D(64, (5, 5), activation=tf.nn.relu),
-    keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2,2)),
-    keras.layers.Conv2D(128, (5, 5), activation=tf.nn.relu),
-    keras.layers.MaxPooling2D(pool_size=(2, 2)),
-    keras.layers.Flatten(),
-    keras.layers.Dense(1024, activation=tf.nn.relu),
-    keras.layers.Dropout(0.2),
-    keras.layers.Dense(NUM_CLASSES, activation=tf.nn.softmax)
-])
-
-model.compile(optimizer=tf.train.AdamOptimizer(),
-              loss='sparse_categorical_crossentropy',
+model.compile(loss='sparse_categorical_crossentropy',
+              optimizer='adam',
               metrics=['accuracy'])
 
-# Trains the model
-model.fit(train_images, train_labels, epochs=EPOCHS, validation_data=(test_images, test_labels))
+train_datagen = ImageDataGenerator(
+    rescale=1. / 255,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True)
 
-# Checks the accuracy
-test_loss, test_acc = model.evaluate(test_images, test_labels)
-print('Test accuracy:', test_acc)
+test_datagen = ImageDataGenerator(rescale=1. / 255)
+
+train_generator = train_datagen.flow_from_directory(
+    train_data_dir,
+    target_size=(img_width, img_height),
+    batch_size=batch_size,
+    class_mode='binary')
+
+validation_generator = test_datagen.flow_from_directory(
+    validation_data_dir,
+    target_size=(img_width, img_height),
+    batch_size=batch_size,
+    class_mode='binary')
+
+model.fit_generator(
+    train_generator,
+    steps_per_epoch=nb_train_samples // batch_size,
+    epochs=epochs,
+    validation_data=validation_generator,
+    validation_steps=nb_validation_samples // batch_size)
+
+model.save_weights('result.h5')
