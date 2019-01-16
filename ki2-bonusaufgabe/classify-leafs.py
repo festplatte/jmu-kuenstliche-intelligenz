@@ -5,6 +5,8 @@ This script was executed on the following environment:
 - Tensorflow 1.12.0
 
 It achieved an accuracy of 78.12 % on the set of test images.
+
+The script is based on the following tutorial: https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html
 '''
 
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
