@@ -44,5 +44,28 @@
 	\tableofcontents
 	\newpage
 	
-
+	\section{Unsicheres Wissen und Schließen}
+	Logik benötigt exakte Regeln, die immer wahr sind. Oft nicht gegeben (zu wenig Daten, keine Regeln möglich) $\rightarrow$ wahrscheinlichkeitsbasiertes Entscheiden. Ein Agent benötigt dazu Präferenzen, wie nützlich verschiedene Ziele sind und die Wahrscheinlichkeiten, diese Ziele zu erreichen.\\
+	\textbf{Rationalität} = wähle Aktion mit der größten erwarteten Nützlichkeit
+	
+	\subsection{Wahrscheinlichkeitsrechnung}
+	\textbf{unbedingte Wahrscheinlichkeit} $P(A)$\\
+	\textbf{Wahrscheinlichkeitsverteilung} $P(Wetter) = (0,7; 0,2; 0,008; 0,02)$\\
+	\textbf{Operanden} $\wedge$ = und, $\vee$ = oder\\
+	\textbf{Bedingte Wahrscheinlichkeit} wie wahrscheinlich ist $A$ wenn $B$ wahr ist:
+	$$P(A|B) = \frac{P(A \wedge B)}{P(B)} \Leftrightarrow P(A \wedge B) = P(A|B) P(B)$$\\
+	$P(A \vee B) = P(A) + P(B) - P(A \wedge B)$\\
+	\textbf{Apriori-Wahrscheinlichkeit} Wahrscheinlichkeit für ein Ereignis unabhängig von den anderen: $P(X) = \sum_y P(X,y)$ (Marginalization) oder $P(X) = \sum_y P(X|y) P(y)$ (Conditioning)\\
+	\textbf{Unabhängige Variablen} Für Variablen, deren Ereignisse unabhängig voneinander eintreten gilt: $P(a|b) = P(a)$\\
+	\textbf{Bayes' Theorem} $P(B|A) = \frac{P(A|B) P(B)}{P(A)}$ wird verwendet zur Herleitung nicht bekannter, abhängiger Wahrscheinlichkeiten\\
+	\textbf{Naives Theorem von Bayes} Annahme: Symptome $S_i$ untereinander unabhängig (oft nicht gegeben), Vollständigkeit der Diagnosen $D_i$
+	$$P(D_i|S_1 \wedge ... \wedge S_m) = \frac{P(D_i) P(S_1|D_i) ... P(S_m|D_i)}{\sum_{j=1}^{n} P(D_j) P(S_1|D_j) ... P(S_m|D_j)} = \alpha P(D_i) P(S_1|D_i) ... P(S_m|D_i)$$
+	Dabei ist $\alpha$ eine Normierungskonstante, so dass die Summer aller Wahrscheinlichkeiten 1 ergibt.\\
+	\textbf{Numerische Variablen} Annahme: alle Variablen haben diskrete Werte. Kontinuierliche Variablen werden diskretisiert oder Verwendung, wenn Verteilungsfunktion bekannt ist.
+	
+	\subsection{Probabilistische Netze}
+	Theorem von Bayes behandelt alle Symptome als voneinander unabhängig. Probabilistische Netze (gerichtete Graphen) stellen Abhängigkeiten dar.
+	
+	% TODO continue with chapter 14
+	
 \end{document}
