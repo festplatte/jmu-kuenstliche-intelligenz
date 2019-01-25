@@ -65,7 +65,8 @@
 	
 	\subsection{Probabilistische/Bayessche Netze}
 	Theorem von Bayes behandelt alle Symptome als voneinander unabhängig. Probabilistische Netze (gerichtete, azyklische Graphen) stellen Abhängigkeiten dar.\\
-	\includegraphics[width=\textwidth]{figures/probabilistisches-netz.JPG}\\
+	\textit{einfach verbunden}: es gibt nur einen Pfad zu einem Knoten, \textit{mehrfach verbunden}: ex existieren mehrere Pfade zum gleichen Knoten\\
+	% TODO reactivate \includegraphics[width=\textwidth]{figures/probabilistisches-netz.JPG}\\
 	\textbf{Konstruktion von probabilistischen Netzen}
 	\begin{enumerate}
 		\item Wähle geeignete Zufallsvariable
@@ -77,12 +78,39 @@
 	\end{enumerate}
 	Es ermöglicht die Wahrscheinlichkeitsberechnung jeder vollständigen Knotenbelegung.\\
 	Beispiel: $$P(J \wedge M \wedge A \wedge \bar{B} \wedge \bar{E}) = P(J|A) P(M|A) P(A|\bar{B} \wedge \bar{E}) P(\bar{B}) P(\bar{E}) = 0,9 \cdot 0,7 \cdot 0,0001 \cdot 0,999 \cdot 0,998 = 0,000628$$
-	\textbf{Enumerate-Joint-Ask} Berechnung von nicht vollständigen Knotenbelegungen $\rightarrow$ bilde Summe über unbekannte Möglichkeiten: $$P(B|J \wedge M) = \alpha P(B,J,M) = \alpha \sum_e \sum_a P(B \wedge e \wedge a \wedge J \wedge M)$$
-	$\Rightarrow$ Komplexität für $n$ boolsche Variablen: $O(n2^n)$\\
 	\textbf{Unabhängigkeit} $X$ ist unabhängig von seinen Nichtnachfolgern $Z_{ij}$, wenn seine Eltern $U_i$ bekannt sind (siehe rechts).\\
 	$X$ ist unabhängig von allen anderen Knoten, wenn seine Eltern $U_i$, seine Kinder $Y_i$ und deren andere Eltern $Z_{ij}$ bekannt sind $\Rightarrow$ Markov blanket (siehe links)\\
-	\includegraphics[width=\textwidth]{figures/markov-blanket.JPG}
-
-	% TODO continue with chapter 14, slide 18
+	% TODO reactivate \includegraphics[width=\textwidth]{figures/markov-blanket.JPG}
+	\textbf{Enumerate-Joint-Ask} Berechnung von nicht vollständigen Knotenbelegungen $\rightarrow$ bilde Summe über unbekannte Möglichkeiten: $$P(B|J \wedge M) = \alpha P(B,J,M) = \alpha \sum_e \sum_a P(B \wedge e \wedge a \wedge J \wedge M)$$
+	$\Rightarrow$ Komplexität für $n$ boolsche Variablen: $O(n2^n)$\\
+	\textbf{Verbesserungen} Speichern von Berechnungen, Verschiebung von Termen vor die Summe, Irrelevante Variablen die 1 ergeben erkennen und eliminieren, Zusammenfassung von Knoten in mehrfach verbundenen Netzen\\
+	\textbf{Stochastische Simulation} Führe mehrere Simulationsläufe mit Zufallswerten durch und berechne aus den Häufigkeiten die Wahrscheinlichkeiten.
+	\begin{itemize}
+		\item Direct Sampling: wähle Werte in topologischer Reihenfolge der Wahrscheinlichkeitstabelle entsprechend $\rightarrow$ erfordert viele Läufe für seltene Ereignisse
+		\item Rejection Sampling: wie Direct Sampling, aber nicht relevante Läufe werden ignoriert
+		\item Likelihood Weighting: setze interessante Werte und gewichte entsprechend der Wahrscheinlichkeitstabellen $\rightarrow$ effizient, kann aber nicht alles gleichzeitig berechnen
+		\item Markov Chain Monte Carlo (MCMC): wähle Wertebelegung entsprechend der Vorgaben, restliche Knoten werden zufällig entsprechend ihrer Markov Blanket gewählt
+	\end{itemize}
+	\textbf{Berechnung der wahrscheinlichsten Sequenz} Wahrscheinlichkeiten für Zustände in Abhängigkeit einer Variable gegeben, Wahrscheinlichkeit für Auftreten des Folgezustandes gegeben. Berechne wahrscheinlichste Sequenz durch durchrechnen.\\
+	\includegraphics[width=\textwidth]{figures/wahrscheinlichste-sequenz.png}\\
+	\textbf{Hidden Markov Model} Reduktion aller Variable auf eine einzige, die alle Zustände abbildet $\rightarrow$ wird zur Abbildung von Phonemen (Lauten) auf Wörter verwendet\\
+	\textbf{Kalman Filter} Schätzung des Zustandes eines physischen Systems anhand verrauschter Beobachtungen (z.B. Flugzeuge auf Radarschirm)\\
+	\textbf{Viterbi Algorithmus} rekursives Vorgehen
+	
+	\subsection{Entscheiden}
+	\textbf{Erwartete Nützlichkeit} Ziel einer Entscheidung sollte die Maximierung der erwarteten Nützlichkeit $EU$ sein. Diese berechnet sich unter der Vorbedingung $E$ für eine Aktion $A$ mit $i$ verschiedenen Ergebnissen wie folgt: $EU(A|E) = \sum_i P(Ergebnis_i(A)|E, Tue(A)) U(Ergebnis_i(A))$ mit $U$ als Nützlichkeit\\
+	\textbf{Axiome der Nützlichkeitstheorie}
+	\begin{itemize}
+		\item Reihenfolge: $(A \succ B) \vee (B \succ A) \vee (A \sim B)$
+		\item Transitivität: $(A \succ B) \wedge (B \succ C) \Rightarrow (A \succ C)$
+		\item Kontinuität: $A \succ B \succ C$ Agent ist unsicher, wenn er $B$ sicher bekommt, $A$ aber nur mit Wahrscheinlichkeit $p$ und $C$ mit $1-p$
+		\item Ersetzbarkeit: gleiche Entscheidung für komplexere Lotterien, die $A$ und $B$ enthalten wie zwischen nur $A$ und $B$
+		\item Monotonie: zwei Lotterien mit der Nützlichkeit $A$ und $B$. Wenn $A$ besser als $B$, dann muss auch andere Lotterie bevorzugt werden, die $A$ mit höherer Wahrscheinlichkeit nutzt
+		\item Zerlegbarkeit: Komplexe Lotterien können vereinfacht werden, da der Agent keine Lotterie bevorzugen sollte, nur weil er mehr Wahlmöglichkeiten hat
+	\end{itemize}
+	\textbf{Probleme} Beste Wahrscheinlichkeiten oft überschätzt; Mensch entscheidet nicht rational\\
+	strikt dominant: in jedem Attribut besser; stochastisch dominant: besser für jedes Wahrscheinlichkeitsniveau
+	
+	% TODO continue with chapter 16, slide 12
 	
 \end{document}
