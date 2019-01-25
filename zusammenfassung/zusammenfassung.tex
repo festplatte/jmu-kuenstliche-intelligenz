@@ -63,9 +63,23 @@
 	Dabei ist $\alpha$ eine Normierungskonstante, so dass die Summer aller Wahrscheinlichkeiten 1 ergibt.\\
 	\textbf{Numerische Variablen} Annahme: alle Variablen haben diskrete Werte. Kontinuierliche Variablen werden diskretisiert oder Verwendung, wenn Verteilungsfunktion bekannt ist.
 	
-	\subsection{Probabilistische Netze}
-	Theorem von Bayes behandelt alle Symptome als voneinander unabhängig. Probabilistische Netze (gerichtete Graphen) stellen Abhängigkeiten dar.
-	
-	% TODO continue with chapter 14
+	\subsection{Probabilistische/Bayessche Netze}
+	Theorem von Bayes behandelt alle Symptome als voneinander unabhängig. Probabilistische Netze (gerichtete, azyklische Graphen) stellen Abhängigkeiten dar.\\
+	\includegraphics[width=\textwidth]{figures/probabilistisches-netz.JPG}\\
+	Es ermöglicht die Wahrscheinlichkeitsberechnung jeder vollständigen Knotenbelegung.\\
+	Beispiel: $P(J \wedge M \wedge A \wedge \bar{B} \wedge \bar{E}) = P(J|A) P(M|A) P(A|\bar{B} \wedge \bar{E}) P(\bar{B}) P(\bar{E}) = 0,9 \cdot 0,7 \cdot 0,0001 \cdot 0,999 \cdot 0,998 = 0,000628$\\
+	\textbf{Konstruktion von probabilistischen Netzen}
+	\begin{enumerate}
+		\item Wähle geeignete Zufallsvariable
+		\item Wähle Reihenfolge der Variablen (Wichtig für Größe des Netzes)
+		\item Solange Variablen noch nicht im Netz sind:
+			\subitem Nimm nächste Variable $X_i$
+			\subitem Setze die Eltern von $X_i$ auf eine minimale Menge von bereite im Netz vorhandenen Knoten
+			\subitem Definiere die Wahrscheinlichkeitstabelle für $X_i$
+	\end{enumerate}
+	\begin{figure}[h]
+		\includegraphics[width=\textwidth]{figures/markov-blanket.JPG}
+	\end{figure}
+	% TODO continue with chapter 14, slide 12
 	
 \end{document}
