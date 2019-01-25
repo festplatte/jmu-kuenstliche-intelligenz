@@ -66,8 +66,6 @@
 	\subsection{Probabilistische/Bayessche Netze}
 	Theorem von Bayes behandelt alle Symptome als voneinander unabhängig. Probabilistische Netze (gerichtete, azyklische Graphen) stellen Abhängigkeiten dar.\\
 	\includegraphics[width=\textwidth]{figures/probabilistisches-netz.JPG}\\
-	Es ermöglicht die Wahrscheinlichkeitsberechnung jeder vollständigen Knotenbelegung.\\
-	Beispiel: $P(J \wedge M \wedge A \wedge \bar{B} \wedge \bar{E}) = P(J|A) P(M|A) P(A|\bar{B} \wedge \bar{E}) P(\bar{B}) P(\bar{E}) = 0,9 \cdot 0,7 \cdot 0,0001 \cdot 0,999 \cdot 0,998 = 0,000628$\\
 	\textbf{Konstruktion von probabilistischen Netzen}
 	\begin{enumerate}
 		\item Wähle geeignete Zufallsvariable
@@ -77,9 +75,14 @@
 			\subitem Setze die Eltern von $X_i$ auf eine minimale Menge von bereite im Netz vorhandenen Knoten
 			\subitem Definiere die Wahrscheinlichkeitstabelle für $X_i$
 	\end{enumerate}
-	\begin{figure}[h]
-		\includegraphics[width=\textwidth]{figures/markov-blanket.JPG}
-	\end{figure}
-	% TODO continue with chapter 14, slide 12
+	Es ermöglicht die Wahrscheinlichkeitsberechnung jeder vollständigen Knotenbelegung.\\
+	Beispiel: $$P(J \wedge M \wedge A \wedge \bar{B} \wedge \bar{E}) = P(J|A) P(M|A) P(A|\bar{B} \wedge \bar{E}) P(\bar{B}) P(\bar{E}) = 0,9 \cdot 0,7 \cdot 0,0001 \cdot 0,999 \cdot 0,998 = 0,000628$$
+	\textbf{Enumerate-Joint-Ask} Berechnung von nicht vollständigen Knotenbelegungen $\rightarrow$ bilde Summe über unbekannte Möglichkeiten: $$P(B|J \wedge M) = \alpha P(B,J,M) = \alpha \sum_e \sum_a P(B \wedge e \wedge a \wedge J \wedge M)$$
+	$\Rightarrow$ Komplexität für $n$ boolsche Variablen: $O(n2^n)$\\
+	\textbf{Unabhängigkeit} $X$ ist unabhängig von seinen Nichtnachfolgern $Z_{ij}$, wenn seine Eltern $U_i$ bekannt sind (siehe rechts).\\
+	$X$ ist unabhängig von allen anderen Knoten, wenn seine Eltern $U_i$, seine Kinder $Y_i$ und deren andere Eltern $Z_{ij}$ bekannt sind $\Rightarrow$ Markov blanket (siehe links)\\
+	\includegraphics[width=\textwidth]{figures/markov-blanket.JPG}
+
+	% TODO continue with chapter 14, slide 18
 	
 \end{document}
