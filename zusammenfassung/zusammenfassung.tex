@@ -110,7 +110,17 @@
 	\end{itemize}
 	\textbf{Probleme} Beste Wahrscheinlichkeiten oft überschätzt; Mensch entscheidet nicht rational\\
 	strikt dominant: in jedem Attribut besser; stochastisch dominant: besser für jedes Wahrscheinlichkeitsniveau
+	\textbf{Entscheidungsnetze} Erweiterung von probabilistischen Netzen um Entscheidungs- und Nützlichkeitsknoten. $\rightarrow$ Entscheidungsknoten beeinflussen die Zufallsvariablen und damit die Nützlichkeit. Vorgehen zur Auswertung:
+	\begin{enumerate}
+		\item Setze Zufallsvariablen entsprechend dem aktuellen Zustand
+		\item Für jede mögliche Aktion des Entscheidungsknotens:
+			\subitem Setze den Entscheidungsknoten auf diesen Wert
+			\subitem Berechne Wahrscheinlichkeiten der Eltern-Knoten des Nützlichkeitsknoten mit einem Inferenz-Algorithmus für probabilistische Werte
+			\subitem Berechne Nützlichkeit der Aktion
+		\item Wähle Aktion mit größter Nützlichkeit
+	\end{enumerate}
+	\includegraphics[width=0.5\textwidth]{figures/entscheidungsnetz.png}\\
+	Bewertung der Nützlichkeit ist genauer mit mehr Informationen. Nützlichkeit der Information ist immer positiv, nicht additiv und kann berechnet werden.
 	
-	% TODO continue with chapter 16, slide 12
-	
+	% TODO continue with chapter 17	
 \end{document}
