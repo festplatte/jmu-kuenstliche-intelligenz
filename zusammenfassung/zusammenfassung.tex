@@ -66,7 +66,7 @@
 	\subsection{Probabilistische/Bayessche Netze}
 	Theorem von Bayes behandelt alle Symptome als voneinander unabhängig. Probabilistische Netze (gerichtete, azyklische Graphen) stellen Abhängigkeiten dar.\\
 	\textit{einfach verbunden}: es gibt nur einen Pfad zu einem Knoten, \textit{mehrfach verbunden}: ex existieren mehrere Pfade zum gleichen Knoten\\
-	% TODO reactivate \includegraphics[width=\textwidth]{figures/probabilistisches-netz.JPG}\\
+	\includegraphics[width=\textwidth]{figures/probabilistisches-netz.JPG}\\
 	\textbf{Konstruktion von probabilistischen Netzen}
 	\begin{enumerate}
 		\item Wähle geeignete Zufallsvariable
@@ -80,7 +80,7 @@
 	Beispiel: $$P(J \wedge M \wedge A \wedge \bar{B} \wedge \bar{E}) = P(J|A) P(M|A) P(A|\bar{B} \wedge \bar{E}) P(\bar{B}) P(\bar{E}) = 0,9 \cdot 0,7 \cdot 0,0001 \cdot 0,999 \cdot 0,998 = 0,000628$$
 	\textbf{Unabhängigkeit} $X$ ist unabhängig von seinen Nichtnachfolgern $Z_{ij}$, wenn seine Eltern $U_i$ bekannt sind (siehe rechts).\\
 	$X$ ist unabhängig von allen anderen Knoten, wenn seine Eltern $U_i$, seine Kinder $Y_i$ und deren andere Eltern $Z_{ij}$ bekannt sind $\Rightarrow$ Markov blanket (siehe links)\\
-	% TODO reactivate \includegraphics[width=\textwidth]{figures/markov-blanket.JPG}
+	\includegraphics[width=\textwidth]{figures/markov-blanket.JPG}
 	\textbf{Enumerate-Joint-Ask} Berechnung von nicht vollständigen Knotenbelegungen $\rightarrow$ bilde Summe über unbekannte Möglichkeiten: $$P(B|J \wedge M) = \alpha P(B,J,M) = \alpha \sum_e \sum_a P(B \wedge e \wedge a \wedge J \wedge M)$$
 	$\Rightarrow$ Komplexität für $n$ boolsche Variablen: $O(n2^n)$\\
 	\textbf{Verbesserungen} Speichern von Berechnungen, Verschiebung von Termen vor die Summe, Irrelevante Variablen die 1 ergeben erkennen und eliminieren, Zusammenfassung von Knoten in mehrfach verbundenen Netzen\\
@@ -109,7 +109,7 @@
 		\item Zerlegbarkeit: Komplexe Lotterien können vereinfacht werden, da der Agent keine Lotterie bevorzugen sollte, nur weil er mehr Wahlmöglichkeiten hat
 	\end{itemize}
 	\textbf{Probleme} Beste Wahrscheinlichkeiten oft überschätzt; Mensch entscheidet nicht rational\\
-	strikt dominant: in jedem Attribut besser; stochastisch dominant: besser für jedes Wahrscheinlichkeitsniveau
+	strikt dominant: in jedem Attribut besser; stochastisch dominant: besser für jedes Wahrscheinlichkeitsniveau\\
 	\textbf{Entscheidungsnetze} Erweiterung von probabilistischen Netzen um Entscheidungs- und Nützlichkeitsknoten. $\rightarrow$ Entscheidungsknoten beeinflussen die Zufallsvariablen und damit die Nützlichkeit. Vorgehen zur Auswertung:
 	\begin{enumerate}
 		\item Setze Zufallsvariablen entsprechend dem aktuellen Zustand
