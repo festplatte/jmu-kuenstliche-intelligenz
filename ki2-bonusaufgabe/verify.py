@@ -1,6 +1,7 @@
 from tensorflow.keras.models import model_from_json
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import operator
 import numpy as np
 
 # dimensions of images
@@ -11,7 +12,7 @@ loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 # load weights into new model
-loaded_model.load_weights("result.h5")
+loaded_model.load_weights("classify-leafs.h5")
 loaded_model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
@@ -41,13 +42,17 @@ validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
     target_size=(img_width, img_height),
     batch_size=1,
-    shuffle=False,
     class_mode='categorical')
 (img, img_class) = validation_generator.next()
-print('expected class')
+
+index, value = max(enumerate(img_class[0]), key=operator.itemgetter(1))
 print(img_class)
+print('expected class:')
+print(index)
 classes = loaded_model.predict(img)
+index, value = max(enumerate(classes[0]), key=operator.itemgetter(1))
 print(classes)
+print(index)
 
 
 # classes = loaded_model.predict_generator(validation_generator)
