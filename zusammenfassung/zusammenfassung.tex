@@ -122,5 +122,24 @@
 	\includegraphics[width=0.5\textwidth]{figures/entscheidungsnetz.png}\\
 	Bewertung der Nützlichkeit ist genauer mit mehr Informationen. Nützlichkeit der Information ist immer positiv, nicht additiv und kann berechnet werden.
 	
-	% TODO continue with chapter 17	
+	\section{Lernen}
+	Lernende Agenten haben \textbf{Verhaltenskomponente} (Problemlöser), \textbf{Lernkomponente} (Verbesserung der Verhaltenskomponente), \textbf{Kritikkomponente} (Bewertung des Verhaltens) und einen \textbf{Problemgenerator} (Exploration). Lernen kann dabei als Lernen der Repräsentation einer Funktion betrachtet werden.\\
+	\includegraphics[width=\linewidth]{figures/lernender-agent.JPG}\\
+	\textbf{Lernarten}
+	\begin{enumerate}
+		\item Geführtes Lernen (Supervised learning)
+		\item Verstärkungslernen (reinforcement learning)
+		\item Ungeführtes Lernen (unsupervised learning)
+		\item Teilgeführtes Lernen (semi-supervised learning)
+	\end{enumerate}
+	\textbf{Lernen einer Funktion} Gegeben Ausgaben einer Funktion, die approximiert werden soll. Aufteilung in Trainingsmenge und Testmenge. Bei \textbf{endlicher} Ausgabemenge $\Rightarrow$ \textbf{Klassifikation}, bei \textbf{kontinuierlicher} Ausgabe $\Rightarrow$ \textbf{Regession}\\
+	\textbf{Auswahl verfügbarer Hypothesen} (gelernte Funktionen): bevorzuge einfache Hypothese (Ockham's razor) $\Rightarrow$ Präferenzannahme (\textbf{Bias})
+	
+	\subsection{Lernen von Entscheidungsbäumen}
+	Für den Mensch einfach verständlich, Ausgabe ist Ja/Nein-Entscheidung (boolean)\\
+	\textbf{Entscheidungsbaum mit Trainingsbeispielen}\\
+	\includegraphics[width=0.5\linewidth]{figures/entscheidungsbaum.JPG}
+	\includegraphics[width=0.5\linewidth]{figures/entscheidungsbaum-trainingsbeispiele.JPG}
+	
+	% TODO continue with chapter 18, slide 13
 \end{document}
