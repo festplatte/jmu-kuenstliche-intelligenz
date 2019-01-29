@@ -133,13 +133,24 @@
 		\item Teilgeführtes Lernen (semi-supervised learning)
 	\end{enumerate}
 	\textbf{Lernen einer Funktion} Gegeben Ausgaben einer Funktion, die approximiert werden soll. Aufteilung in Trainingsmenge und Testmenge. Bei \textbf{endlicher} Ausgabemenge $\Rightarrow$ \textbf{Klassifikation}, bei \textbf{kontinuierlicher} Ausgabe $\Rightarrow$ \textbf{Regession}\\
-	\textbf{Auswahl verfügbarer Hypothesen} (gelernte Funktionen): bevorzuge einfache Hypothese (Ockham's razor) $\Rightarrow$ Präferenzannahme (\textbf{Bias})
+	\textbf{Auswahl verfügbarer Hypothesen} (gelernte Funktionen): bevorzuge einfache Hypothese (Ockham's razor) $\Rightarrow$ Präferenzannahme (\textbf{Bias})\\
+	\textbf{Entropie}: Informationsmaß für die Unsicherheit einer Zufallsvariable. Wie viel Bit werden benötigt, um die Zustände zu repräsentieren? (z.B. Münze werfen $\rightarrow$ 1 Bit, 4-seitiger Würfel $\rightarrow$ 2 Bit, aber Münze mit 99 \% Wahrscheinlichkeit für Zahl $\rightarrow > 0$). Allgemein: Entropie $H$ der Zufallsvariablen $V$, deren Werte $v_k$ sind
+	$$H(V) = \sum_k P(v_k) \log_2 \frac{1}{P(v_k)} = - \sum_k P(v_k) \log_2 P(v_k)$$
+	Damit ergibt sich eine Entropie $B$ für boolsche Variablen, die mit der Wahrscheinlichkeit $q$ wahr sind: $B(q) = - (q \log_2 q + (1-q) \log_2 (1-q))$.\\
+	\textbf{Overfitting} beschreibt das zu starke Anpassen eines Lernmodells an die Testdaten, wodurch die Klassifikation auf realen Daten schlecht funktioniert.\\
+	\textbf{Pruning} Entfernen irrelevanter Attribute (zufällige Aufteilung) $\rightarrow$ Chi-Quadrat-Test\\
+	\textbf{Cross-Validation} Überprüfe Bewertungsgenauigkeit mit unabhängigem Testset an Daten (reservierter Teil der Trainingsdaten) $\rightarrow$ k-fold Cross Validation reserviert für jeden der $k$ Trainigsdurchgänge $\frac{1}{k}$ der Trainingsdaten als Testdaten\\
+	\textbf{Loss Function} (Verlustfunktion) ist ein Maß dafür, wie viele Fehler das aktuellen Modell bei der Klassifizierung macht (kann z.B. nach Schwere des Fehlers gewichtet werden)
 	
 	\subsection{Lernen von Entscheidungsbäumen}
-	Für den Mensch einfach verständlich, Ausgabe ist Ja/Nein-Entscheidung (boolean)\\
+	Für den Mensch einfach verständlich, Ausgabe ist Ja/Nein-Entscheidung (boolean). Für $n$ verschiedene boolsche Eingabewerte existieren $2^{2^n}$ mögliche boolsche Funktionen.\\
 	\textbf{Entscheidungsbaum mit Trainingsbeispielen}\\
 	\includegraphics[width=0.5\linewidth]{figures/entscheidungsbaum.JPG}
-	\includegraphics[width=0.5\linewidth]{figures/entscheidungsbaum-trainingsbeispiele.JPG}
+	\includegraphics[width=0.5\linewidth]{figures/entscheidungsbaum-trainingsbeispiele.JPG}\\
+	Für den Aufbau des Baums wähle Attribut aus der Trainingsmenge, das die meisten Zielzustände exakt vorhersagen kann/bedingt. Fahre rekursiv fort. Beispiel: für alle $Patrons = Some \Rightarrow WillWait = Yes$\\
+	\textbf{Entropie in Entscheidungsbäumen} Für Entscheidungsbäume mit $p$ positiven und $n$ negativen Trainingsdatensätzen ergibt sich: $H(Ziel) = B(\frac{p}{p+n})$. Für ein Attribut $A$ mit $d$ verschiedenen Werten ergibt sich dann eine Entropie von: $Remainder(A) = \sum_{k=1}^{d} \frac{p_k + n_k}{p+n} B(\frac{p_k}{p_k + n_k})$. Die erwartete Entropiereduktion ist er Informationsgewinn des Attributs $A$ und beschreibt damit dessen Wichtigkeit (Entscheidungskriterium für bestes Attribut): $Gain(A) = B(\frac{p}{p+n}) - Remainder(A)$\\
+	\textbf{Probleme} Unvollständige Daten $\rightarrow$ Werte schätzen, Attribute mit vielen Werten $\rightarrow$ Pruning\\
 	
-	% TODO continue with chapter 18, slide 13
+	% TODO continue with chapter 18, slide 32
+	
 \end{document}
