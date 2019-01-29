@@ -140,7 +140,11 @@
 	\textbf{Overfitting} beschreibt das zu starke Anpassen eines Lernmodells an die Testdaten, wodurch die Klassifikation auf realen Daten schlecht funktioniert.\\
 	\textbf{Pruning} Entfernen irrelevanter Attribute (zufällige Aufteilung) $\rightarrow$ Chi-Quadrat-Test\\
 	\textbf{Cross-Validation} Überprüfe Bewertungsgenauigkeit mit unabhängigem Testset an Daten (reservierter Teil der Trainingsdaten) $\rightarrow$ k-fold Cross Validation reserviert für jeden der $k$ Trainigsdurchgänge $\frac{1}{k}$ der Trainingsdaten als Testdaten\\
-	\textbf{Loss Function} (Verlustfunktion) ist ein Maß dafür, wie viele Fehler das aktuellen Modell bei der Klassifizierung macht (kann z.B. nach Schwere des Fehlers gewichtet werden)
+	\textbf{Loss Function} (Verlustfunktion) ist ein Maß dafür, wie viele Fehler das aktuellen Modell bei der Klassifizierung macht (kann z.B. nach Schwere des Fehlers gewichtet werden)\\
+	\textbf{Lernrate $\alpha$} Beginne mit zufälliger Belegung der Variablen und subtrahiere die Lossfunktion, multipliziert mit einem Faktor $\alpha$ (konstant oder schrittweise verkleinern, z.B. durch Gradientenberechnung), der Lernrate.\\
+	\textbf{Schwellwertfunktion} $h_w(x) = Schwellwert(w \cdot x)$ Klassifikation über Schwellwert\\
+	\textbf{Sigmoid-Funktion} Schwellwertfunktion nicht ableitbar, deshalb ersetzen durch Sigmoid-Funktion/logistische Funktion: $sig(x) = \frac{1}{1 + e^{-x}}$\\
+	\textbf{Ensemble Lernen} Mehrere Hypothesen aufstellen und diese per Mehrheit abstimmen lassen. Hypothesen können durch unterschiedliche Gewichtung der Beispiele gelernt werden $\rightarrow$ Boosting
 	
 	\subsection{Lernen von Entscheidungsbäumen}
 	Für den Mensch einfach verständlich, Ausgabe ist Ja/Nein-Entscheidung (boolean). Für $n$ verschiedene boolsche Eingabewerte existieren $2^{2^n}$ mögliche boolsche Funktionen.\\
@@ -151,6 +155,38 @@
 	\textbf{Entropie in Entscheidungsbäumen} Für Entscheidungsbäume mit $p$ positiven und $n$ negativen Trainingsdatensätzen ergibt sich: $H(Ziel) = B(\frac{p}{p+n})$. Für ein Attribut $A$ mit $d$ verschiedenen Werten ergibt sich dann eine Entropie von: $Remainder(A) = \sum_{k=1}^{d} \frac{p_k + n_k}{p+n} B(\frac{p_k}{p_k + n_k})$. Die erwartete Entropiereduktion ist er Informationsgewinn des Attributs $A$ und beschreibt damit dessen Wichtigkeit (Entscheidungskriterium für bestes Attribut): $Gain(A) = B(\frac{p}{p+n}) - Remainder(A)$\\
 	\textbf{Probleme} Unvollständige Daten $\rightarrow$ Werte schätzen, Attribute mit vielen Werten $\rightarrow$ Pruning\\
 	
-	% TODO continue with chapter 18, slide 32
+	\subsection{Lernen von Entscheidungslisten (Regeln)}
+	\textbf{Greedy-Algorithmus} Eingabe: alle Beispiele $B$, Ausgabe: Entscheidungsliste $E$, leer initialisiert
+	\begin{itemize}
+		\item Wenn $B$ leer dann return $E$
+		\item Suche Regel $R$, die möglichst viele Beispiele $B_R$ löst
+		\item Wenn Regel gefunden $E \leftarrow append(E, R)$, $B \leftarrow B \backslash B_R$, sonst return Error
+	\end{itemize}
+
+	\subsection{Lineare Regression}
+	Lernen von linearen Geradengleichungen, d.h. suche Vektor $w = [w_0, w_1]^T$ für $h_w(x) = w_1 x + w_0$. $\Rightarrow$ binäre Klassifikation möglich mit Schwellwertfunktion\\
+	\textbf{$L_2$-Loss} Berechnung der quadratischen Differenz zwischen vorhergesagtem Wert $(x_j, h_w(x_j))$ und erwartetem Ergebnis $(x_j, y_j)$ bei $N$ Datenpunkten:
+	$$Verlust(h_w) = \sum_{j=1}^{N} L_2(y_j, h_w(x_j)) = \sum_{j=1}^{N} (y_j - h_w(x_j))^2 = \sum_{j=1}^{N} (y_j - (w_1 x_j + w_0))^2$$
+	Die Summe der Fehler ist minimal, wenn die Ableitungen nach $w_0$ und $w_1$ null sind. Daraus ergibt sich für $w$:
+	$$w_1 = \frac{N(\sum x_j y_j) - (\sum x_j)(\sum y_j)}{N(\sum x_j^2)-(\sum x_j)^2}, w_0 = \frac{\sum y_j - w_1 (\sum x_j)}{N}$$
+	$\Rightarrow$ schwer berechenbar, daher Hill-Climbing mit Gradientenabstieg
+	
+	\subsection{Support Vector Machine (SVM)}
+	Linear trennende Hyperebene in höherdimensionalem Raum mit zusätzlichen Attributen generiert aus den vorhandenen (z.B. räumliche Verschiebung von 2D-Punkten) $\Rightarrow$ größerer Rechenaufwand als bei Deep Learning\\
+	\includegraphics[width=\linewidth]{figures/support-vector-machine.png}
+	
+	\subsection{Lernen in Bayesschen Netzen}
+	\begin{enumerate}
+		\item Bekannte Netzstruktur, beobachtbare Variablen $\rightarrow$ Update der Wahrscheinlichkeitstabellen
+		\item Bekannte Netzstruktur, teilweise nicht beobachtbare Variablen $\rightarrow$ EM-Algorithmus
+		\item Unbekannte Netzstruktur, beobachtbare Variablen $\rightarrow$ Suchproblem
+		\item Unbekannte Netzstruktur, teilweise nicht beobachtbare Variablen $\rightarrow$ offenes Forschungsproblem
+	\end{enumerate}
+	Berechne die Wahrscheinlichkeit für gegebene Hypothesen $H_i$ unter gegebenen Beobachtungen $B_i$ (z.B. welche Tüte Bonbons (5 Arten) wurde gekauft, wenn nacheinander mehrere Bonbons gezogen werden): $P(H_i|B) = P(B|H_i) P(H_i) \Rightarrow P(B|H_i) = P(B_1|H_i) ... P(B_n|H_i)$\\
+	\textbf{Maximum a Posteriori} Benutze in letzter Berechnung nur wahrscheinlichste Hypothese\\
+	\textbf{Maximum Likelihood} Ignoriere in erster Berechnung die a priori Wahrscheinlichkeiten $P(H_i)$ der Hypothesen (oft ungenau).
+	
+	% TODO continue with chapter 20, slide 11
+	
 	
 \end{document}
