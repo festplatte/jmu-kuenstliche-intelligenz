@@ -195,14 +195,38 @@
 	
 	\subsection{Reinforcement Learning}
 	Lernen durch Feedback. Agent lernt, in dem er zu seinen Aktionen zu einem definierten Zeitpunkt ein Feedback bekommt (gut oder schlecht).
-	\begin{enumerate}
+	\begin{itemize}
 		\item Nützlichkeitsbasiert: Agent lernt Nützlichkeit von Zuständen zur Aktionsauswahl
 		\item Q-Learning: Agent lernt Aktion-Wert-Funktionen
 		\item Reflexartig: Agent lernt Politik, die Zustände auf Aktionen abbildet
 		\item Passiv: Politik steht fest $\rightarrow$ lernt Nützlichkeit der Zustände
-	\end{enumerate}
+	\end{itemize}
 	\textbf{Erkundungspolitik} wenig erkundete Pfade bekommen belohnungsabhängige Verstärkung, die mit häufigeren Durchläufen abnimmt.\\
 	\textbf{Q-Lernen} $Q(a,s)$ = Wert der Aktion $a$ im Zustand $s \Rightarrow U(s) = \max_a Q(a,s)$ Nützlichkeit eines Zustandes ist die größte Nützlichkeit einer der möglichen Aktionen. Stelle Tabelle mit Zustandsübergängen dar und deren Nützlichkeiten (z.B. Roboter versucht von einem Raum in einen anderen gelangen). Das Ziel hat höchste Nützlichkeit. Starte in jedem Durchgang in beliebigem Zustand (z.B. in beliebigem Raum) und wähle zufällige Aktion. Berechne Nützlichkeit für Zustand:
 	$$Q(s,a) = R(s,a) + \gamma \max_{a'} Q(s',a')$$
+	
+	\subsection{Neuronale Netze}
+	Neuronale Netze entstehen durch die Verknüpfung mehrerer Schichten von künstlichen Neuronen, wobei jedes Neuron als Eingabe die Ausgaben aller Neuronen der vorherigen Schicht erhält (fully-connected).\\
+	\textbf{Perceptron} (= künstliches Neuron) stellt lineare Trennung (binäre Klassifikation) dar. Kann Funktionen AND, OR und NOT lernen, nicht aber XOR.\\
+	\includegraphics[width=\linewidth]{figures/perceptron.png}\\
+	mit Inputs $a_j$ gewichtet mit $W_{ji}$ (ergeben zusammen die Gewichtsmatrix $W$), Outputs $a_i$ und der Aktivierungsfunktion $g$ mit der der Output berechnet wird.\\
+	\textbf{Aktivierungsfunktionen} typisch sind:
+	\begin{itemize}
+		\item Stufenfunktion: $g(x) = x < 0 \rightarrow 0, x > 0 \rightarrow 1$ (nicht differenzierbar)
+		\item Sigmoidfunktion: $g(x) = \frac{1}{1 + e^{-x}}$ (siehe Einleitung Lernen)
+		\item ReLU: $g(x) = x < 0 \rightarrow 0, x > 0 \rightarrow x$ (nicht differenzierbar für $x=0$)
+		\item Tangenz hyperbolicus: $g(x) = tanh(x)$
+	\end{itemize}
+	\textbf{Rückpropagierung} Fehler (z.B. quadratische Abweichung von erwartetem Wert $\rightarrow$ Loss-Funktion) wird entsprechend der Gewichte auf Vorgängerknoten verteilt\\
+	\textbf{Berechnung der Ausgabe}
+	$$Ausgabe_{Schicht(x)} = g(W \cdot Eingabe_{Schicht(x)}) = Eingabe_{Schicht(x+1)}$$
+	\textbf{Verteilung des Fehlers}
+	$$Fehler_{Schicht(x-1)} = W^T \cdot Fehler_{Schicht(x)}$$
+	Änderung der Gewichte über Gradient Descent $w_{jk} \leftarrow w_{jk} - \alpha \frac{dE}{dw_{jk}}$ mit $E$ als Loss-Funktion\\
+	\textbf{Datenvorverarbeitung} Inputs zwischen 0 und 1, da hohe Werte niedrige Gradienten erzeugen\\
+	\textbf{Netzvorbereitung} zufällige Vorbelegung der Gewichte (nicht symmetrisch) $\Rightarrow$ Pre-Training: wenn möglich Gewichte eines bereits trainierten Netzes für ähnliches Problem verwenden\\
+	\textbf{Overfitting} kann durch kleine Netzgröße (nicht so ausdrucksstark), Dropout (ignorieren einiger Knoten für einen Lerndurchgang)\\
+	
+	% TODO continue with chapter Neuronale Netze 01, slide 26
 	
 \end{document}
