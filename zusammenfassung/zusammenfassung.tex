@@ -184,9 +184,25 @@
 	\end{enumerate}
 	Berechne die Wahrscheinlichkeit für gegebene Hypothesen $H_i$ unter gegebenen Beobachtungen $B_i$ (z.B. welche Tüte Bonbons (5 Arten) wurde gekauft, wenn nacheinander mehrere Bonbons gezogen werden): $P(H_i|B) = P(B|H_i) P(H_i) \Rightarrow P(B|H_i) = P(B_1|H_i) ... P(B_n|H_i)$\\
 	\textbf{Maximum a Posteriori} Benutze in letzter Berechnung nur wahrscheinlichste Hypothese\\
-	\textbf{Maximum Likelihood} Ignoriere in erster Berechnung die a priori Wahrscheinlichkeiten $P(H_i)$ der Hypothesen (oft ungenau).
+	\textbf{Maximum Likelihood} Ignoriere in erster Berechnung die a priori Wahrscheinlichkeiten $P(H_i)$ der Hypothesen (oft ungenau).\\
+	\textbf{Expectation-Maximation (EM) Algorithmus} Gegeben: Punktemenge in $n$-dimensionalem Raum (Trainingsdaten); Gesucht: eine Menge von $c$ Clustern (Klassifikation)
+	\begin{itemize}
+		\item Initialisierung: wähle zufällig $c$ Clusterzentren
+		\item Expectation: Ordne jeden Punkt dem nächstgelegenen Clusterzentrum zu
+		\item Maximation: Berechne aufgrund der Cluster-Punkte dessen Zentrum neu
+		\item Terminierung: wiederhole E- und M-Schritt, bis kein Punkt seine Clusterzugehörigkeit ändert $\rightarrow$ keine Verbesserung mehr
+	\end{itemize}
 	
-	% TODO continue with chapter 20, slide 11
-	
+	\subsection{Reinforcement Learning}
+	Lernen durch Feedback. Agent lernt, in dem er zu seinen Aktionen zu einem definierten Zeitpunkt ein Feedback bekommt (gut oder schlecht).
+	\begin{enumerate}
+		\item Nützlichkeitsbasiert: Agent lernt Nützlichkeit von Zuständen zur Aktionsauswahl
+		\item Q-Learning: Agent lernt Aktion-Wert-Funktionen
+		\item Reflexartig: Agent lernt Politik, die Zustände auf Aktionen abbildet
+		\item Passiv: Politik steht fest $\rightarrow$ lernt Nützlichkeit der Zustände
+	\end{enumerate}
+	\textbf{Erkundungspolitik} wenig erkundete Pfade bekommen belohnungsabhängige Verstärkung, die mit häufigeren Durchläufen abnimmt.\\
+	\textbf{Q-Lernen} $Q(a,s)$ = Wert der Aktion $a$ im Zustand $s \Rightarrow U(s) = \max_a Q(a,s)$ Nützlichkeit eines Zustandes ist die größte Nützlichkeit einer der möglichen Aktionen. Stelle Tabelle mit Zustandsübergängen dar und deren Nützlichkeiten (z.B. Roboter versucht von einem Raum in einen anderen gelangen). Das Ziel hat höchste Nützlichkeit. Starte in jedem Durchgang in beliebigem Zustand (z.B. in beliebigem Raum) und wähle zufällige Aktion. Berechne Nützlichkeit für Zustand:
+	$$Q(s,a) = R(s,a) + \gamma \max_{a'} Q(s',a')$$
 	
 \end{document}
