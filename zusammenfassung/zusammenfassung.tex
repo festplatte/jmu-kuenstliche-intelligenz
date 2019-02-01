@@ -210,12 +210,14 @@
 	\textbf{Perceptron} (= künstliches Neuron) stellt lineare Trennung (binäre Klassifikation) dar. Kann Funktionen AND, OR und NOT lernen, nicht aber XOR.\\
 	\includegraphics[width=\linewidth]{figures/perceptron.png}\\
 	mit Inputs $a_j$ gewichtet mit $W_{ji}$ (ergeben zusammen die Gewichtsmatrix $W$), Outputs $a_i$ und der Aktivierungsfunktion $g$ mit der der Output berechnet wird.\\
+	\textbf{Bias} ist der Input eines Perceptrons, der immer konstant bleibt (meist 1) damit das Perceptron auch bei schwachem Input nicht abgeschaltet wird.\\
 	\textbf{Aktivierungsfunktionen} typisch sind:
 	\begin{itemize}
 		\item Stufenfunktion: $g(x) = x < 0 \rightarrow 0, x > 0 \rightarrow 1$ (nicht differenzierbar)
 		\item Sigmoidfunktion: $g(x) = \frac{1}{1 + e^{-x}}$ (siehe Einleitung Lernen)
-		\item ReLU: $g(x) = x < 0 \rightarrow 0, x > 0 \rightarrow x$ (nicht differenzierbar für $x=0$)
+		\item ReLU (Rectified Linear Unit): $g(x) = x < 0 \rightarrow 0, x > 0 \rightarrow x$ (nicht differenzierbar für $x=0$)
 		\item Tangenz hyperbolicus: $g(x) = tanh(x)$
+		\item Softmax: Abbildung eines Vektors in Werte zwischen 0 und 1 mit Summe 1 (z.B. für Ausgabelayer)
 	\end{itemize}
 	\textbf{Rückpropagierung} Fehler (z.B. quadratische Abweichung von erwartetem Wert $\rightarrow$ Loss-Funktion) wird entsprechend der Gewichte auf Vorgängerknoten verteilt\\
 	\textbf{Berechnung der Ausgabe}
@@ -226,7 +228,15 @@
 	\textbf{Datenvorverarbeitung} Inputs zwischen 0 und 1, da hohe Werte niedrige Gradienten erzeugen\\
 	\textbf{Netzvorbereitung} zufällige Vorbelegung der Gewichte (nicht symmetrisch) $\Rightarrow$ Pre-Training: wenn möglich Gewichte eines bereits trainierten Netzes für ähnliches Problem verwenden\\
 	\textbf{Overfitting} kann durch kleine Netzgröße (nicht so ausdrucksstark), Dropout (ignorieren einiger Knoten für einen Lerndurchgang)\\
+	\textbf{Typen von Schichten}
+	\begin{itemize}
+		\item Fully Connected (FC): besteht aus mehreren Perceptrons (s.o.)
+		\item Convolutional Neural Networks (CNN): Für Bilderkennung, Gewichtungsmatrix über Input verschieben und gewichtete, aufsummierte Werte in Outputmatrix schreiben
+		\item Polling Layer: Verkleinerung von Inputmatrizen durch z.B. Max-Funktion einer Submatrix
+	\end{itemize}
+	\textbf{Multi-Klassen Klassifizierung} über $K$ Diskrimianzfunktionen für $K$ Klassen. Dabei gibt immer eine Funktion für einen bestimmten Bereich/Klasse den höchsten Wert zurück.\\
+	\textbf{Vanishing Problem} Tiefe Netze lernen sehr langsam, da das Änderungsgewicht pro Schicht mit Faktor < 1 multipliziert wird (Ableitung Aktivierungsfunktion). Kann umgangen werden durch ReLU (Ableitung konstant 1 für positive Zahlen)
 	
-	% TODO continue with chapter Neuronale Netze 01, slide 26
+	% TODO continue with 3. deep learning, slide 47
 	
 \end{document}
