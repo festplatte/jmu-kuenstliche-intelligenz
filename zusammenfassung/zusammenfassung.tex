@@ -225,7 +225,7 @@
 	\textbf{Verteilung des Fehlers}
 	$$Fehler_{Schicht(x-1)} = W^T \cdot Fehler_{Schicht(x)}$$
 	Änderung der Gewichte über Gradient Descent $w_{jk} \leftarrow w_{jk} - \alpha \frac{dE}{dw_{jk}}$ mit $E$ als Loss-Funktion\\
-	\textbf{Datenvorverarbeitung} Inputs zwischen 0 und 1, da hohe Werte niedrige Gradienten erzeugen\\
+	\textbf{Datenvorverarbeitung} Inputs zwischen 0 und 1, da hohe Werte niedrige Gradienten erzeugen, Bilder können rotiert, gespiegelt, zugeschnitten, etc. werden um mehr Trainingsdaten zu generieren.\\
 	\textbf{Netzvorbereitung} zufällige Vorbelegung der Gewichte (nicht symmetrisch) $\Rightarrow$ Pre-Training: wenn möglich Gewichte eines bereits trainierten Netzes für ähnliches Problem verwenden\\
 	\textbf{Overfitting} kann durch kleine Netzgröße (nicht so ausdrucksstark), Dropout (ignorieren einiger Knoten für einen Lerndurchgang)\\
 	\textbf{Typen von Schichten}
@@ -235,8 +235,16 @@
 		\item Polling Layer: Verkleinerung von Inputmatrizen durch z.B. Max-Funktion einer Submatrix
 	\end{itemize}
 	\textbf{Multi-Klassen Klassifizierung} über $K$ Diskrimianzfunktionen für $K$ Klassen. Dabei gibt immer eine Funktion für einen bestimmten Bereich/Klasse den höchsten Wert zurück.\\
-	\textbf{Vanishing Problem} Tiefe Netze lernen sehr langsam, da das Änderungsgewicht pro Schicht mit Faktor < 1 multipliziert wird (Ableitung Aktivierungsfunktion). Kann umgangen werden durch ReLU (Ableitung konstant 1 für positive Zahlen)
-	
-	% TODO continue with 3. deep learning, slide 47
+	\textbf{Vanishing Problem} Tiefe Netze lernen sehr langsam, da das Änderungsgewicht pro Schicht mit Faktor < 1 multipliziert wird (Ableitung Aktivierungsfunktion). Kann umgangen werden durch ReLU (Ableitung konstant 1 für positive Zahlen)\\
+	\textbf{Recurrent Neural Networks} für die Verarbeitung von sequenziellen Daten (variable Ein-/Ausgabe) z.B. für OCR oder Sprachverarbeitung\\
+	\textbf{CTC-Algorithmus} Berechne die Wahrscheinlichkeit einer Sequenz durch Aufsummieren aller möglichen Pfade (links) oder dynamisches Programmieren (rechts)\\
+	\includegraphics[width=0.5\linewidth]{figures/ctc-pfade.JPG}
+	\includegraphics[width=0.5\linewidth]{figures/ctc-dynamisch.JPG}\\
+	\textbf{Adversial Examples} Manipulierte Inputdaten, die für den Menschen noch gut erkennbar sind (kein merklicher Unterschied zu Original), von einem DNN jedoch falsch klassifiziert werden. Bild wird mit Rauschen addiert, welches auf das Netz trainiert ist. Gegenmaßnahmen:
+	\begin{itemize}
+		\item Trainiere Netz mit Adversial Examples (richtige Klassifikation)
+		\item Mehrere unterschiedliche Technologien zur Klassifikation einsetzen
+		\item DeepCloak entfernen von unnötigen Features, die ausgenutzt werden könnten
+	\end{itemize}
 	
 \end{document}
